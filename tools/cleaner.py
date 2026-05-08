@@ -17,10 +17,12 @@ def clean_data(df):
     # Step 3: Handle missing values
     missing_before = df.isnull().sum().sum()
     for col in df.columns:
-        if df[col].dtype == "object":
+        if df[col].dtype in ["object", "string"]:
             df[col] = df[col].fillna("Unknown")
-        else:
+        elif df[col].dtype in ["float64", "int64", "Float64", "Int64"]:
             df[col] = df[col].fillna(df[col].median())
+        else:
+            df[col] = df[col].fillna("Unknown")
     report.append(f"🔧 Fixed {missing_before} missing values")
 
     # Step 4: Strip whitespace from text columns
