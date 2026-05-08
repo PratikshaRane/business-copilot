@@ -22,7 +22,14 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     if uploaded_file.name.endswith(".csv"):
-        df = pd.read_csv(uploaded_file, encoding='utf-8', errors='replace')
+        raw = uploaded_file.read()
+        for enc in ["utf-8", "latin-1", "cp1252", "iso-8859-1"]:
+            try:
+                import io
+                df = pd.read_csv(io.BytesIO(raw), encoding=enc)
+                break
+            except:
+                continue
     else:
         df = pd.read_excel(uploaded_file, encoding='utf-8', errors='replace')
 
