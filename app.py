@@ -22,9 +22,9 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     if uploaded_file.name.endswith(".csv"):
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_csv(uploaded_file, encoding='utf-8', errors='replace')
     else:
-        df = pd.read_excel(uploaded_file)
+        df = pd.read_excel(uploaded_file, encoding='utf-8', errors='replace')
 
     st.subheader("📋 Raw Data Preview")
     st.dataframe(df.head(10))
